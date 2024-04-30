@@ -1,7 +1,7 @@
 import os
 
 import nextcord
-from nextcord import Interaction
+from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 import asyncio
 import requests
@@ -10,7 +10,8 @@ import requests
 from cmds import (  # noqa: F401
     get_major_order,
     send_new_order,
-    scrape_personal
+    scrape_personal,
+    lookup_planet
     )
 
 if os.path.exists("env.py"):
@@ -18,7 +19,7 @@ if os.path.exists("env.py"):
 TOKEN = os.environ.get('DISCORD_TOKEN')
 intents = nextcord.Intents.all()
 bot = commands.Bot()
-servers = [867600394196484107]
+servers = [867600394196484107,1232979224835395657]
 # servers = [1232979224835395657]
 
 
@@ -33,11 +34,20 @@ async def on_ready():
 async def major_order(interaction: Interaction):
     await get_major_order.get_major_order_cmd(interaction)
 
-# Major Order Command #
+# Personal Order Command #
 @bot.slash_command(guild_ids=servers,
                    description="Get current Major Order")
 async def personal_order(interaction: Interaction):
     await scrape_personal.get_personal(interaction)
+
+# Planet Command #
+@bot.slash_command(guild_ids=servers,
+                   description="Search for Planet info")
+async def planet(
+    interaction: Interaction,
+    planet: str = SlashOption(
+        description="Enter the planet you wish to search for.", required=True)):
+    await lookup_planet.get_planet(interaction, planet)
 
 @commands.is_owner()
 @bot.slash_command(guild_ids=servers,

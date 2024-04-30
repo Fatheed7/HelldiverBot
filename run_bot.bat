@@ -1,0 +1,1 @@
+env\Scripts\activate && pythonw.exe app.py
