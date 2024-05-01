@@ -8,7 +8,6 @@ from io import BytesIO
 import nextcord
 
 async def get_personal(interaction):
-    scraping = await interaction.send("Please wait...")
     options = Options()
     options.add_argument('--headless=new')
     options.add_argument("--log-level=3")
@@ -48,5 +47,4 @@ async def get_personal(interaction):
         title="Personal Order",
         color=nextcord.Color.red())
     embed.set_image(url="attachment://canvas.png")
-    await scraping.delete()
     await interaction.send(file=file, embed=embed)

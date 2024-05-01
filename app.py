@@ -4,14 +4,14 @@ import nextcord
 from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 import asyncio
+import nextcord.ext.application_checks
 import requests
-
 
 from cmds import (  # noqa: F401
     get_major_order,
     send_new_order,
     scrape_personal,
-    lookup_planet
+    lookup_planet,
     )
 
 if os.path.exists("env.py"):
@@ -20,7 +20,6 @@ TOKEN = os.environ.get('DISCORD_TOKEN')
 intents = nextcord.Intents.all()
 bot = commands.Bot()
 servers = [867600394196484107,1232979224835395657]
-# servers = [1232979224835395657]
 
 
 @bot.event
@@ -38,6 +37,7 @@ async def major_order(interaction: Interaction):
 @bot.slash_command(guild_ids=servers,
                    description="Get current Major Order")
 async def personal_order(interaction: Interaction):
+    await interaction.response.defer()
     await scrape_personal.get_personal(interaction)
 
 # Planet Command #
@@ -49,12 +49,15 @@ async def planet(
         description="Enter the planet you wish to search for.", required=True)):
     await lookup_planet.get_planet(interaction, planet)
 
-@commands.is_owner()
+@commands.has_role('Potato')
 @bot.slash_command(guild_ids=servers,
                    description="Shutdown Bot")
 async def shutdown(interaction: Interaction):
-    await interaction.response.send_message("Shutting down bot", ephemeral=True)
-    exit()
+    if interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("Shutting down bot", ephemeral=True)
+        exit()
+    else:
+        await interaction.response.send_message("You don't have access to run this command", ephemeral=True)
 
 def check_brief_change(new_brief):
     file_path = "brief.txt"
@@ -68,7 +71,6 @@ def check_brief_change(new_brief):
 async def check_brief_periodically():
     while True:
         channel = bot.get_channel(867600394875830284)
-        # channel = bot.get_channel(1232979225288507434)
         await asyncio.sleep(300)  # Wait for 300 seconds
         url = "https://api.diveharder.com/raw/major_order"
         try:
