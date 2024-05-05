@@ -1,29 +1,29 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from PIL import Image
 from io import BytesIO
 import nextcord
-import requests
+import os
 
 async def get_personal(interaction):
     try:
-        options = Options()
-        options.add_argument('--headless=new')
-        options.add_argument("--log-level=3")
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("--log-level=3")
         user_agent = (
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML,'
             'like Gecko) Chrome/60.0.3112.50 Safari/537.36'
         )
-        options.add_argument("--window-size=1920,1200")
-        options.add_argument('user-agent={0}'.format(user_agent))
+        chrome_options.add_argument('user-agent={0}'.format(user_agent))
+        chrome_options.add_argument("--window-size=1920,1200")
 
-        driver = webdriver.Chrome(
-            options=options,
-            service=ChromeService(ChromeDriverManager().install()))
+        # Specify the path to Chrome WebDriver executable
+        chrome_driver_path = "/path/to/chromedriver"
 
+        driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
         driver.get("https://helldivers.io/")
 
         canvas = driver.find_element(By.CSS_SELECTOR, "canvas")
