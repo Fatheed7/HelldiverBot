@@ -66,8 +66,11 @@ async def get_major_order_cmd(interaction):  # sourcery skip
                     value=(f"<t:{int(deadline)}:R> - <t:{int(deadline)}:f>"),
                     inline=True)
                 await interaction.send(embed=embed)
-    except requests.exceptions.RequestException as e:
+        else:
+            raise Exception("Response not 200")
+    except Exception as e:
         print("Error:", e)
+        await interaction.response.send_message(f"Sorry flower, there has been an error - {e}", ephemeral=True)
         return None
     
 

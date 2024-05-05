@@ -21,11 +21,11 @@ async def get_planet(interaction, planet):  # sourcery skip
                     results.append(record)
                     record_number.append(number)
             for record in data['planet_stats']['planets_stats']:
-                if str(record_number[0]) == str(record['planetIndex']):
-                    planet_data.append(record)
+                    if str(record_number[0]) == str(record['planetIndex']):
+                        planet_data.append(record)
             if len(results) > 0:
                 biome = results[0]['biome']['name'].lower().replace(" ","-")
-                title = f'Planet Data for {results[0]['name']}'
+                title = f"Planet Data for {results[0]['name']}"
                 embed = nextcord.Embed(
                     title=title,
                     color=nextcord.Color.red())
@@ -100,6 +100,9 @@ async def get_planet(interaction, planet):  # sourcery skip
                         f"https://helldiverstrainingmanual.com/images/biomes/webp/{biome}.webp"
                     )
                 await interaction.send(embed=embed)
-    except requests.exceptions.RequestException as e:
+        else:
+            raise Exception("Response not 200")
+    except Exception as e:
         print("Error:", e)
+        await interaction.response.send_message(f"Sorry flower, there has been an error - {e}", ephemeral=True)
         return None

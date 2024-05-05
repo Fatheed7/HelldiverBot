@@ -48,6 +48,8 @@ async def send_new_order_cmd(channel):  # sourcery skip
                 value=(f"<t:{int(deadline)}:R> - <t:{int(deadline)}:f>"),
                 inline=True)
             await channel.send("New Major Order!", embed=embed, view=None)
+        else:
+            raise Exception("Response not 200")
     except requests.exceptions.RequestException as e:
         print("Error:", e)
         return None

@@ -49,7 +49,6 @@ async def planet(
         description="Enter the planet you wish to search for.", required=True)):
     await lookup_planet.get_planet(interaction, planet)
 
-@commands.has_role('Potato')
 @bot.slash_command(guild_ids=servers,
                    description="Shutdown Bot")
 async def shutdown(interaction: Interaction):
