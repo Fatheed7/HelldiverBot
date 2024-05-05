@@ -101,7 +101,7 @@ async def get_planet(interaction, planet):  # sourcery skip
                     )
                 await interaction.send(embed=embed)
         else:
-            raise Exception("Response not 200")
+            raise Exception(f"Expected Response Code 200 but receieved {response.status_code}: {response.json()['detail']}")
     except Exception as e:
         print("Error:", e)
         await interaction.response.send_message(f"Sorry flower, there has been an error - {e}", ephemeral=True)

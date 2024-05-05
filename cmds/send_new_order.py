@@ -49,7 +49,7 @@ async def send_new_order_cmd(channel):  # sourcery skip
                 inline=True)
             await channel.send("New Major Order!", embed=embed, view=None)
         else:
-            raise Exception("Response not 200")
+            raise Exception(f"Expected Response Code 200 but receieved - {response.status_code}: {response.json()['detail']}")
     except requests.exceptions.RequestException as e:
         print("Error:", e)
         return None
