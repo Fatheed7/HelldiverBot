@@ -8,9 +8,6 @@ async def get_personal(interaction):
         personal_order_text = get_personal_order_text(url)
         if personal_order_text:
             split_text = personal_order_text.split('<br>')
-            print("I ran")
-        else:
-            print("Personal order text not found.")
         embed = nextcord.Embed(
                     title="Personal Order",
                     color=nextcord.Color.red())
