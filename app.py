@@ -78,7 +78,7 @@ def check_brief_change(new_brief):
 async def check_brief_periodically():
     while True:
         channel = bot.get_channel(867600394875830284)
-        await asyncio.sleep(300)  # Wait for 300 seconds
+        await asyncio.sleep(3600)  # Wait for 300 seconds
         url = "https://api.diveharder.com/raw/major_order"
         try:
             response = requests.get(url)
