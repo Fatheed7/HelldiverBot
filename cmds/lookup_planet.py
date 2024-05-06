@@ -1,9 +1,5 @@
 import nextcord
 import requests
-import json
-from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
-import io
 
 
 async def get_planet(interaction, planet):  # sourcery skip

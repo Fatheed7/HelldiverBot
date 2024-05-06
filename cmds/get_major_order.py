@@ -2,8 +2,6 @@ import nextcord
 import requests
 import json
 from datetime import datetime
-import io
-
 
 async def get_major_order_cmd(interaction):  # sourcery skip
     url = "https://api.diveharder.com/raw/major_order"

@@ -37,7 +37,6 @@ async def major_order(interaction: Interaction):
 @bot.slash_command(guild_ids=servers,
                    description="Get current Major Order")
 async def personal_order(interaction: Interaction):
-    await interaction.response.defer()
     await scrape_personal.get_personal(interaction)
 
 # Planet Command #

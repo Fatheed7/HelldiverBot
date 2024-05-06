@@ -8,17 +8,21 @@ async def get_personal(interaction):
         personal_order_text = get_personal_order_text(url)
         if personal_order_text:
             split_text = personal_order_text.split('<br>')
+            print("I ran")
         else:
             print("Personal order text not found.")
         embed = nextcord.Embed(
                     title="Personal Order",
                     color=nextcord.Color.red())
+        embed.set_thumbnail(
+                    "https://helldiverscompanionimagescdn.b-cdn.net/icons/factions/Humans.png"
+                )
         embed.add_field(name="Mission",
                         value=split_text[0],
-                        inline=True)
+                        inline=False)
         embed.add_field(name="Reward",
                 value=split_text[1][8:],
-                inline=True)
+                inline=False)
         await interaction.send(embed=embed)
 
     except Exception as e:
