@@ -12,13 +12,15 @@ from cmds import (  # noqa: F401
     send_new_order,
     scrape_personal,
     lookup_planet,
+    get_store
     )
 
 if os.path.exists("env.py"):
     import env # noqa
 TOKEN = os.environ.get('DISCORD_TOKEN')
-intents = nextcord.Intents.all()
-bot = commands.Bot()
+intents = nextcord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(intents=intents)
 servers = [867600394196484107,1232979224835395657]
 
 
@@ -35,9 +37,15 @@ async def major_order(interaction: Interaction):
 
 # Personal Order Command #
 @bot.slash_command(guild_ids=servers,
-                   description="Get current Major Order")
+                   description="Get current Personal Order")
 async def personal_order(interaction: Interaction):
     await scrape_personal.get_personal(interaction)
+
+# Store Command #
+@bot.slash_command(guild_ids=servers,
+                   description="Get current Store Contents")
+async def store(interaction: Interaction):
+    await get_store.get_store_contents(interaction)
 
 # Planet Command #
 @bot.slash_command(guild_ids=servers,
@@ -48,6 +56,7 @@ async def planet(
         description="Enter the planet you wish to search for.", required=True)):
     await lookup_planet.get_planet(interaction, planet)
 
+#Shutdown Bot
 @bot.slash_command(guild_ids=servers,
                    description="Shutdown Bot")
 async def shutdown(interaction: Interaction):
