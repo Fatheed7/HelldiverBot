@@ -2,7 +2,6 @@ import nextcord
 import requests
 import json
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
 import io
 
 
