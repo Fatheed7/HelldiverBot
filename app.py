@@ -12,7 +12,8 @@ from cmds import (  # noqa: F401
     send_new_order,
     scrape_personal,
     lookup_planet,
-    get_store
+    get_store,
+    itad_cmd
     )
 
 if os.path.exists("env.py"):
@@ -55,6 +56,15 @@ async def planet(
     planet: str = SlashOption(
         description="Enter the planet you wish to search for.", required=True)):
     await lookup_planet.get_planet(interaction, planet)
+
+# ITAD Command #
+@bot.slash_command(guild_ids=servers,
+                   description="Search for a game on Is There Any Deal?")
+async def itad(
+    interaction: Interaction,
+    game: str = SlashOption(
+        description="Enter the game you wish to search for.", required=True)):
+    await itad_cmd.get_price(interaction, game)
 
 #Shutdown Bot
 @bot.slash_command(guild_ids=servers,
